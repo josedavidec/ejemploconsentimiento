@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consentimiento Legal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Consentimiento Informado</h1>
+    <p>Al firmar este documento, usted acepta los términos y condiciones de ingreso a nuestras instalaciones, exonerando a la empresa de cualquier responsabilidad por accidentes derivados del mal uso de los equipos o no seguir instrucciones del personal.</p>
+    
+    <label for="fullname">Nombre completo:</label><br>
+    <input type="text" id="fullname" name="fullname" placeholder="Escribe tu nombre completo"><br><br>
+    
+    <label for="signature">Firma digital (usa el mouse o dedo):</label><br>
+    <canvas id="signature" width="300" height="100"></canvas><br>
+    <button onclick="clearCanvas()">Borrar firma</button><br><br>
+    
+    <button onclick="submitConsent()">Aceptar y Firmar</button>
+    <p id="confirmation" style="display:none; color:green; margin-top:20px;">
+      ✅ Consentimiento registrado correctamente. ¡Gracias!
+    </p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
