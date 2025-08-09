@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Inicio from "./pages/sections/Inicio";
 import Clientes from "./pages/sections/Clientes";
+import Usuarios from "./pages/sections/Usuarios";
 import Configuracion from "./pages/sections/Configuracion";
 import SupabaseDiagnostic from "./pages/SupabaseDiagnostic";
 
@@ -63,6 +64,7 @@ function App() {
                 {/* Rutas anidadas con slugs personalizados */}
                 <Route path="inicio" element={<Inicio />} />
                 <Route path="clientes" element={<Clientes />} />
+                <Route path="usuarios" element={<Usuarios />} />
                 <Route path="configuracion" element={<Configuracion />} />
               </Route>
 
