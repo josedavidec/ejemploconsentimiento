@@ -117,9 +117,13 @@ export const AuthProvider = ({ children }) => {
         .insert({
           auth_id: user.id,
           email: user.email,
-          nombre: additionalData.nombre || user.user_metadata?.nombre || user.email.split('@')[0],
-          rol: 'admin',
-          activo: true
+          nombre:
+            additionalData.nombre ||
+            user.user_metadata?.nombre ||
+            user.email.split("@")[0],
+          telefono: additionalData.telefono || null, // <-- agrega esto
+          rol: "admin",
+          activo: true,
         })
         .select()
         .single();
