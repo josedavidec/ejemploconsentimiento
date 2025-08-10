@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Login.css";
+import { Helmet } from "react-helmet-async";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -39,7 +40,11 @@ function Login() {
   };
 
   return (
+    
     <div className="login-container">
+      <Helmet>
+        <title>Iniciar Sesión</title>
+      </Helmet>
       <form className="login-box" onSubmit={handleSubmit}>
         <h1>Iniciar Sesión</h1>
         {error && <div className="login-error">{error}</div>}

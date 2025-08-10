@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { supabase } from "../../lib/supabase";
 import "./Usuarios.css";
+import { Helmet } from "react-helmet-async";
 
 export default function Usuarios() {
   const { signUp } = useAuth();
@@ -45,6 +46,9 @@ export default function Usuarios() {
 
   return (
     <div className="usuarios-container">
+      <Helmet>
+        <title>Gestión de Usuarios</title>
+      </Helmet>
       <h2>Usuarios</h2>
 
       <form
