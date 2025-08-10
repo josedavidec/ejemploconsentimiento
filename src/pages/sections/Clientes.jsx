@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useClientes } from "../../hooks/useClientes";
+import { Helmet } from "react-helmet-async";
 
 const Clientes = () => {
   // Hook personalizado para gestionar clientes
