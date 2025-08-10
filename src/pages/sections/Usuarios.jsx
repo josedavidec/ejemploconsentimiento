@@ -23,9 +23,7 @@ export default function Usuarios() {
     const { success, error } = await signUp(
       nuevoUsuario.email,
       nuevoUsuario.password,
-      { nombre: nuevoUsuario.nombre
-        , telefono: nuevoUsuario.telefono
-       }
+      { nombre: nuevoUsuario.nombre, telefono: nuevoUsuario.telefono }
     );
     if (success) {
       setNuevoUsuario({ nombre: "", email: "", password: "", telefono: "" });
@@ -58,23 +56,43 @@ export default function Usuarios() {
         }}
         style={{ display: "flex", gap: 8, marginBottom: 16 }}
       >
+        <label htmlFor="nombre" className="sr-only">
+          Nombre
+        </label>
         <input
+          id="nombre"
+          name="nombre"
           placeholder="Nombre"
+          autoComplete="name"
           value={nuevoUsuario.nombre}
           onChange={(e) =>
             setNuevoUsuario({ ...nuevoUsuario, nombre: e.target.value })
           }
           required
         />
+
+        <label htmlFor="email" className="sr-only">
+          Email
+        </label>
         <input
+          id="email"
+          name="email"
           placeholder="Email"
+          type="email"
+          autoComplete="email"
           value={nuevoUsuario.email}
           onChange={(e) =>
             setNuevoUsuario({ ...nuevoUsuario, email: e.target.value })
           }
           required
         />
+
+        <label htmlFor="password" className="sr-only">
+          Contraseña
+        </label>
         <input
+          id="password"
+          name="password"
           placeholder="Contraseña"
           type="password"
           autoComplete="new-password"
@@ -84,8 +102,16 @@ export default function Usuarios() {
           }
           required
         />
+
+        <label htmlFor="telefono" className="sr-only">
+          Teléfono
+        </label>
         <input
+          id="telefono"
+          name="telefono"
           placeholder="Teléfono"
+          type="tel"
+          autoComplete="tel"
           value={nuevoUsuario.telefono}
           onChange={(e) =>
             setNuevoUsuario({ ...nuevoUsuario, telefono: e.target.value })

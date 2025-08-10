@@ -5,10 +5,11 @@ table.usuarios-table {
   background: #fff;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.usuarios-table th, .usuarios-table td {
+.usuarios-table th,
+.usuarios-table td {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #eaeaea;
   text-align: left;
@@ -34,10 +35,22 @@ table.usuarios-table {
   font-weight: 500;
   transition: background 0.2s;
 }
+
 .usuarios-table button:hover {
   background: #f7cad0;
 }
 
 .usuarios-container {
   padding: 20px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
