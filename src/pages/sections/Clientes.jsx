@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useClientes } from "../../hooks/useClientes";
 import { Helmet } from "react-helmet-async";
+import "./Clientes.css";
 
 const Clientes = () => {
   // Hook personalizado para gestionar clientes
@@ -31,8 +32,17 @@ const Clientes = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Filtro para mostrar solo próximos a vencer (<= 15 días)
+  const [showVencimiento, setShowVencimiento] = useState(false);
+
   // Filtrar clientes usando el hook
-  const filteredClientes = filterClientes(searchTerm, filterEstado);
+  let filteredClientes = filterClientes(searchTerm, filterEstado);
+  if (showVencimiento) {
+    filteredClientes = filteredClientes.filter(cliente => {
+      const dias = getDiasRestantes(cliente.fecha_inicio, cliente.dias_sanitizacion);
+      return dias <= 15;
+    });
+  }
 
   // Funciones del modal
   const openModal = (type, cliente = null) => {
@@ -146,6 +156,17 @@ const Clientes = () => {
             <option value="vencido">Vencido</option>
           </select>
         </div>
+
+        <div className="filter-group">
+          <button
+            className={`btn-secondary${showVencimiento ? ' active' : ''}`}
+            style={{ minWidth: 180 }}
+            onClick={() => setShowVencimiento(v => !v)}
+            type="button"
+          >
+            {showVencimiento ? 'Ver todos los clientes' : 'Ver próximos a vencer'}
+          </button>
+        </div>
       </div>
 
       <div className="clientes-table-container">
@@ -201,10 +222,16 @@ const Clientes = () => {
                   cliente.dias_sanitizacion
                 );
 
+                // Badge visual para próximos a vencer
+                const badgeVencimiento = diasRestantes <= 15 ? (
+                  <span className={`badge-vencimiento ${diasRestantes <= 7 ? 'rojo' : 'amarillo'}`} title="Próximo a vencer">
+                    {diasRestantes <= 7 ? '⚠️ Muy próximo' : '⏳ Pronto'}
+                  </span>
+                ) : null;
                 return (
                   <tr key={cliente.id}>
                     <td>{cliente.id.split("-")[0]}</td>
-                    <td>{cliente.nombre}</td>
+                    <td>{cliente.nombre} {badgeVencimiento}</td>
                     <td>{cliente.email}</td>
                     <td>{cliente.telefono}</td>
                     <td>
@@ -399,337 +426,6 @@ const Clientes = () => {
         </div>
       )}
 
-      <style jsx>{`
-        .section-container {
-          padding: 20px;
-        }
-
-        .clientes-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 30px;
-          flex-wrap: wrap;
-          gap: 15px;
-        }
-
-        .clientes-header p {
-          margin: 0;
-          color: #666;
-        }
-
-        .btn-primary {
-          background: #007bff;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 6px;
-          cursor: pointer;
-          font-weight: 500;
-        }
-
-        .btn-primary:hover {
-          background: #0056b3;
-        }
-
-        .btn-secondary {
-          background: #6c757d;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 6px;
-          cursor: pointer;
-          font-weight: 500;
-        }
-
-        .btn-secondary:hover {
-          background: #5a6268;
-        }
-
-        .clientes-filters {
-          display: flex;
-          gap: 20px;
-          margin-bottom: 20px;
-          flex-wrap: wrap;
-        }
-
-        .filter-group {
-          flex: 1;
-          min-width: 200px;
-        }
-
-        .search-input,
-        .filter-select {
-          width: 100%;
-          padding: 10px 12px;
-          border: 1px solid #ddd;
-          border-radius: 6px;
-          font-size: 14px;
-        }
-
-        .search-input:focus,
-        .filter-select:focus {
-          outline: none;
-          border-color: #007bff;
-          box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-        }
-
-        .clientes-table-container {
-          background: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          overflow-x: auto;
-          margin-bottom: 20px;
-        }
-
-        .clientes-table {
-          width: 100%;
-          border-collapse: collapse;
-          min-width: 1000px;
-        }
-
-        .clientes-table th,
-        .clientes-table td {
-          padding: 12px 16px;
-          text-align: left;
-          border-bottom: 1px solid #e9ecef;
-        }
-
-        .clientes-table th {
-          background: #f8f9fa;
-          font-weight: 600;
-          color: #495057;
-        }
-
-        .clientes-table tbody tr:hover {
-          background: #f8f9fa;
-        }
-
-        .status-badge {
-          padding: 4px 8px;
-          border-radius: 12px;
-          font-size: 12px;
-          font-weight: 500;
-          text-transform: uppercase;
-        }
-
-        .status-badge.activo {
-          background: #d4edda;
-          color: #155724;
-        }
-
-        .status-badge.en-proceso {
-          background: #fff3cd;
-          color: #856404;
-        }
-
-        .status-badge.vencido {
-          background: #f8d7da;
-          color: #721c24;
-        }
-
-        .progress-container {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .progress-bar-container {
-          width: 100px;
-          height: 8px;
-          background-color: #e9ecef;
-          border-radius: 4px;
-          overflow: hidden;
-        }
-
-        .progress-bar {
-          height: 100%;
-          transition: width 0.3s ease;
-          border-radius: 4px;
-        }
-
-        .progress-text {
-          font-size: 12px;
-          font-weight: 500;
-          min-width: 35px;
-        }
-
-        .days-remaining {
-          font-weight: 500;
-          padding: 4px 8px;
-          border-radius: 4px;
-        }
-
-        .days-remaining.urgent {
-          background: #f8d7da;
-          color: #721c24;
-        }
-
-        .days-remaining.warning {
-          background: #fff3cd;
-          color: #856404;
-        }
-
-        .action-buttons {
-          display: flex;
-          gap: 8px;
-        }
-
-        .btn-edit,
-        .btn-delete {
-          background: none;
-          border: none;
-          cursor: pointer;
-          padding: 4px 8px;
-          border-radius: 4px;
-          font-size: 14px;
-        }
-
-        .btn-edit:hover {
-          background: #e7f3ff;
-        }
-
-        .btn-delete:hover {
-          background: #ffebee;
-        }
-
-        .no-results {
-          text-align: center;
-          padding: 40px 20px;
-          color: #666;
-        }
-
-        .clientes-summary {
-          text-align: center;
-          color: #666;
-          font-size: 14px;
-        }
-
-        .clientes-summary p {
-          margin: 0;
-        }
-
-        /* Modal styles */
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.5);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 1000;
-        }
-
-        .modal-content {
-          background: white;
-          border-radius: 8px;
-          width: 90%;
-          max-width: 500px;
-          max-height: 80vh;
-          overflow-y: auto;
-        }
-
-        .modal-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 20px;
-          border-bottom: 1px solid #e9ecef;
-        }
-
-        .modal-header h2 {
-          margin: 0;
-          color: #333;
-        }
-
-        .modal-close {
-          background: none;
-          border: none;
-          font-size: 24px;
-          cursor: pointer;
-          color: #666;
-        }
-
-        .modal-close:hover {
-          color: #333;
-        }
-
-        .modal-form {
-          padding: 20px;
-        }
-
-        .form-group {
-          margin-bottom: 20px;
-        }
-
-        .form-group label {
-          display: block;
-          margin-bottom: 5px;
-          font-weight: 500;
-          color: #333;
-        }
-
-        .form-group input,
-        .form-group select {
-          width: 100%;
-          padding: 10px 12px;
-          border: 1px solid #ddd;
-          border-radius: 6px;
-          font-size: 14px;
-          box-sizing: border-box;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-          outline: none;
-          border-color: #007bff;
-          box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-        }
-
-        .modal-actions {
-          display: flex;
-          justify-content: flex-end;
-          gap: 10px;
-          margin-top: 20px;
-          padding-top: 20px;
-          border-top: 1px solid #e9ecef;
-        }
-
-        @media (max-width: 768px) {
-          .clientes-filters {
-            flex-direction: column;
-          }
-
-          .filter-group {
-            min-width: unset;
-          }
-
-          .clientes-table {
-            font-size: 12px;
-            min-width: 800px;
-          }
-
-          .clientes-table th,
-          .clientes-table td {
-            padding: 8px 10px;
-          }
-
-          .progress-bar-container {
-            width: 80px;
-          }
-
-          .modal-content {
-            width: 95%;
-          }
-
-          .modal-actions {
-            flex-direction: column;
-          }
-        }
-      `}</style>
     </div>
   );
 };

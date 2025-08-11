@@ -20,7 +20,7 @@ export default function AlertasSanitizacion() {
     const cargarDatos = async () => {
       setLoading(true);
       const { data, error } = await supabase
-        .from("datos")
+        .from("clientes")
         .select("id, nombre, fecha_inicio, dias_sanitizacion");
       if (!error) setClientes(data);
       setLoading(false);
@@ -36,11 +36,28 @@ export default function AlertasSanitizacion() {
     .filter((c) => c.diasRestantes !== null && c.diasRestantes <= 15)
     .sort((a, b) => a.diasRestantes - b.diasRestantes);
 
+  // Resumen: total y top 3 más próximos
+  const totalAlertas = alertas.length;
+  const topAlertas = alertas.slice(0, 3);
+
   if (loading || alertas.length === 0) return null;
 
   return (
     <div className="alertas-sanitizacion">
       <h3>Alertas de procesos de sanitización próximos a vencer</h3>
+      <div className="alertas-resumen">
+        <span>Total próximos a vencer: <b>{totalAlertas}</b></span>
+        {topAlertas.length > 0 && (
+          <span style={{marginLeft: 16}}>
+            Top 3:
+            {topAlertas.map((c, i) => (
+              <span key={c.id} style={{marginLeft: 8}}>
+                <b>{c.nombre}</b> ({c.diasRestantes} días{c.diasRestantes <= 7 ? ' ⚠️' : c.diasRestantes <= 15 ? ' ⏳' : ''}){i < topAlertas.length-1 ? ',' : ''}
+              </span>
+            ))}
+          </span>
+        )}
+      </div>
       <ul className="alertas-list">
         {alertas.map((c) => (
           <li

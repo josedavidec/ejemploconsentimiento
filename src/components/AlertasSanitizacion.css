@@ -1,3 +1,12 @@
+.alertas-resumen {
+  margin-bottom: 12px;
+  font-size: 1rem;
+  color: #856404;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
 .alertas-sanitizacion {
   margin: 32px 0 24px 0;
   padding: 20px 24px;
