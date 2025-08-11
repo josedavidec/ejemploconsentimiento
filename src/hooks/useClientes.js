@@ -15,7 +15,6 @@ export const useClientes = () => {
       const { data, error: fetchError } = await supabase
         .from('clientes')
         .select('*')
-        .eq('activo', true)
         .order('created_at', { ascending: false });
 
       if (fetchError) {

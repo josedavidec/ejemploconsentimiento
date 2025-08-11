@@ -118,7 +118,7 @@ const Clientes = () => {
 
         <div className="clientes-actions">
           <button className="btn-primary" onClick={() => openModal("add")}>
-            + Agregar Cliente
+            ➕ Agregar Cliente
           </button>
         </div>
       </div>

@@ -1,0 +1,48 @@
+.alertas-sanitizacion {
+  margin: 32px 0 24px 0;
+  padding: 20px 24px;
+  background: #fffbe6;
+  border-radius: 8px;
+  border: 1.5px solid #ffe58f;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.alertas-sanitizacion h3 {
+  margin-top: 0;
+  color: #856404;
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+.alertas-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.alerta-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.alerta-item.amarillo {
+  background: #fffbe6;
+  color: #856404;
+  border-left: 5px solid #ffe58f;
+}
+
+.alerta-item.rojo {
+  background: #fff1f0;
+  color: #a8071a;
+  border-left: 5px solid #ff7875;
+}
+
+.alerta-item strong {
+  font-weight: bold;
+}
